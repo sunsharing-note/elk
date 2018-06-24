@@ -1,1 +1,125 @@
-# centos 搭建elk 参考：https://www.cnblogs.com/yypbingo/p/6839555.html
+# centos 搭建elk 参考：https://www.cnblogs.com/yypbingo/p/6839555.html https://www.cnblogs.com/ding2016/p/6879584.html
+
+
+# 1、主机 
+192.168.29.252 192.168.29.250
+# 2、安装后配置
+
+# node1
+cluster.name: elk
+node.name: node1
+path.data: /data/elk/data
+path.logs: /data/elk/log
+network.host: 192.168.29.252
+http.port: 9200
+discovery.zen.ping.unicast.hosts: ["192.168.29.252", "192.168.29.250"]
+
+# node2
+cluster.name: elk
+node.name: node2
+path.data: /data/elk/data
+path.logs: /data/elk/log
+network.host: 192.168.29.250
+discovery.zen.ping.unicast.hosts: ["192.168.29.252", "192.168.29.250"]
+
+
+# 设置内核参数 node1 node2 使用sysctl -p 生效 
+
+[root@k8s-master data]# cat /etc/sysctl.conf | egrep -v '^$|#'
+vm.max_map_count=655360
+
+# 设置资源参数 node1 node2 
+
+[root@k8s-master data]# cat /etc/security/limits.conf |egrep -v '^$|#'
+* soft nofile 65536
+* hard nofile 131072
+* soft nproc 65536
+* hard nproc 131072
+
+# 设置用户参数 node1 node2
+
+[root@k8s-master data]# cat /etc/security/limits.d/20-nproc.conf |egrep -v '^$|#'
+*          soft    nproc     4096
+root       soft    nproc     unlimited
+elk	   soft    nproc     65536
+
+# 3、用户 el不能用root启动 所以需要创建用户，然后再启动
+
+
+# 4、启动后查看
+
+# 查看端口 ss -tnl 9200和9300
+
+# 查看集群状态
+
+[root@k8s-master data]# curl -XGET 'http://192.168.29.252:9200/_cat/nodes'
+192.168.29.250 3 97 1 0.11 0.07 0.29 mdi - node2
+192.168.29.252 4 95 5 0.13 0.32 0.92 mdi * node1
+
+[root@k8s-node config]# curl -XGET 'http://192.168.29.250:9200/_cat/nodes?v'
+ip             heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name
+192.168.29.250            3          97   1    0.16    0.09     0.29 mdi       -      node2
+192.168.29.252            4          96   4    0.11    0.27     0.87 mdi       *      node1
+
+[root@k8s-node config]# curl -XGET 'http://192.168.29.250:9200/_cat/master?v'
+id                     host           ip             node
+qRVia1aCSz25gU1NS7Kkqg 192.168.29.252 192.168.29.252 node1
+
+[root@k8s-master data]# curl -XGET 'http://192.168.29.252:9200/_cluster/state/nodes?pretty'
+{
+  "cluster_name" : "elk",
+  "nodes" : {
+    "ORBFcTtpTD-mlfRrDUUubA" : {
+      "name" : "node2",
+      "ephemeral_id" : "P61fR5fOQr-18vbHTkcm2g",
+      "transport_address" : "192.168.29.250:9300",
+      "attributes" : { }
+    },
+    "qRVia1aCSz25gU1NS7Kkqg" : {
+      "name" : "node1",
+      "ephemeral_id" : "UL8QVjl4TQS-9idlIY8Diw",
+      "transport_address" : "192.168.29.252:9300",
+      "attributes" : { }
+    }
+  }
+}
+
+
+# green 为健康状态 其他还有yellow red
+[root@k8s-node config]# curl -XGET 'http://192.168.29.250:9200/_cat/health?v'
+epoch      timestamp cluster status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
+1529810457 11:20:57  elk     green           2         2      0   0    0    0        0             0                  -                100.0%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
