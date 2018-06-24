@@ -1,0 +1,9 @@
+# 安装logstash
+
+# 1、 下载包
+https://artifacts.elastic.co/downloads/logstash/logstash-5.3.1.tar.gz
+tar -zxvf logstash-5.3.1.tar.gz -C /data
+
+# 2、增加配置logstash.conf
+
+
