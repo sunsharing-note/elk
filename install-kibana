@@ -1,0 +1,26 @@
+# 安装kibana 参考：https://www.cnblogs.com/ding2016/p/6879584.html
+# 修改配置文件 vim /etc/kibana/kibana.yml 
+# 安装NGINX之后，注释掉nginx.conf中的关于80端口代理的设置 启动NGINX 访问页面
+
+[root@k8s-master conf.d]# pwd
+/etc/nginx/conf.d
+[root@k8s-master conf.d]# cat kibana.conf 
+server {
+	listen 80;
+        server_name kibana;
+        auth_basic "Restricted Access";
+        auth_basic_user_file /etc/nginx/kibana-user;
+
+       location / {
+
+		proxy_pass http://192.168.29.252:5601;
+		proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection 'upgrade';
+		proxy_set_header Host $host;
+		proxy_cache_bypass $http_upgrade;
+
+	}
+
+
+}
