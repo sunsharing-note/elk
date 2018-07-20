@@ -90,6 +90,8 @@ qRVia1aCSz25gU1NS7Kkqg 192.168.29.252 192.168.29.252 node1
 epoch      timestamp cluster status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
 1529810457 11:20:57  elk     green           2         2      0   0    0    0        0             0                  -                100.0%
 
+# 查看索引
+http://192.168.29.101:9200/_cat/indices?v
 
 
 
