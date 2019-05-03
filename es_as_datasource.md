@@ -1,25 +1,25 @@
 ##### grafana以es为数据源来展示nginx的成功访问量
 
-##### 添加数据源
+##### 1.添加数据源
 
-config_datasource.png
+![](https://github.com/sunsharing-note/elk/blob/master/gconfig_datasource.png)
 
-select_data_type.png
-
-
-config_test.png
-
-success
-
-confirm
+https://github.com/sunsharing-note/elk/blob/master/select_data_type.png
 
 
-##### grafana展示数据
+https://github.com/sunsharing-note/elk/blob/master/config_test.png
 
-config_dashboard.png
+https://github.com/sunsharing-note/elk/blob/master/success.png
 
-detail_config.png
+https://github.com/sunsharing-note/elk/blob/master/confirm.png
 
-select_es_index.png
 
-result.png
+##### 2.grafana展示数据
+
+https://github.com/sunsharing-note/elk/blob/master/config_dashboard.png
+
+https://github.com/sunsharing-note/elk/blob/master/detail_config.png
+
+https://github.com/sunsharing-note/elk/blob/master/select_es_index.png
+
+https://github.com/sunsharing-note/elk/blob/master/result.png
