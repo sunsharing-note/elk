@@ -4,7 +4,7 @@
 
 ![配置数据源](https://github.com/sunsharing-note/elk/blob/master/config_datasource.png "配置数据源")
 
-![](https://github.com/sunsharing-note/elk/blob/master/select_data_type.png)
+![选择数据源类型](https://github.com/sunsharing-note/elk/blob/master/select_data_type.png "选择数据源类型")
 
 ![](https://github.com/sunsharing-note/elk/blob/master/config_test.png)
 
