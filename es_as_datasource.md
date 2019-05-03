@@ -2,7 +2,7 @@
 
 ##### 1.添加数据源
 
-![](https://github.com/sunsharing-note/elk/blob/master/gconfig_datasource.png)
+![](https://github.com/sunsharing-note/elk/blob/master/config_datasource.png)
 
 https://github.com/sunsharing-note/elk/blob/master/select_data_type.png
 
